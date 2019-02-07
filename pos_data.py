@@ -18,20 +18,25 @@ def GPS_pos_data(gps_data):
             #  1 Byte   |  1 Byte   |  1 Byte  |  1 Byte  |   2 Byte   |     Variable 4 Byte increment    |  2 Byte  |  #
             for index in range(len(_data)-1): #reading the file two bytes at a time.
                 if _data[index:(index + 2)].hex() == 'b562': #check two bytes to verify UBX packet
-                    print(_data[index:(index + 2)].hex())
-                    if _data[(index+2):(index+5)].hex() == '01c3': #Check the Class & ID
-                        UBX_packet_data(_data[(index+8):(index+41)])
+                    payload_length = int.from_bytes(_data[(index+4):(index+6)], byteorder='little', signed=False)
+                    if _data[(index+2):(index+4)].hex() == '013c': #Check the Class & ID
+                        #check the packet for validity
+                        if verify_packet(_data[(index+2):(index+payload_length+4)],_data[(payload_length):(payload_length+2)]):
+                            UBX_packet_data(_data[(index+6):(index+46)])
+                        else:
+                            pass
+                    #It is not a NAV_RELPOSNED packet. find the length and skip that + 2 bytes.
                     else:
-                        print(_data[(index+5):(index+8)])
-                        payload_length = int.from_bytes(_data[(index+5):(index+8)], 'little')
-                    #UBX_packet_data(line[7:(len(line)-2)])
+                        index += payload_length + 2
+                        continue
                 elif (len(_data) - index) < 8:
                     pass
+                index += 1
         gps_file.closed
     except(OSError):
         print("Error in opening/reading file. " + str(OSError))
         return None
-    return _data
+    return ubx_data
 #UWB distance data.
 #umb_data, text file, ascii. Argument type: String.
 #Returns a list of reletive distance measurements in meters. Otherwise returns None object    
@@ -53,7 +58,8 @@ def UBX_packet_data(payload):
     #print(payload)
     pass
 
-
+def verify_packet(_data, chksum):
+    pass
 
 #end of file
 #If the files are passed in at compile/execution time.
