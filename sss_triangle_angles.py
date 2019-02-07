@@ -1,5 +1,6 @@
 import math
 import statistics
+import pos_data
 R = 6371000 #radius of the earth
 
 
@@ -20,6 +21,7 @@ def sss_triangle_angle_calc(a,b,c):
     b_squared = math.pow(b,2)
     c_squared = math.pow(c,2)
     argument = (b_squared + c_squared - a_squared)/(2*b*c)
+    print(argument)
     angle = math.degrees(math.acos(argument))
     return angle
 def stats(distance_array):
@@ -51,19 +53,27 @@ def trilateration(rtk, rad1, rad2):
     
 
 if __name__ == '__main__':
-    #a = 7
-    #b = 6
-    #c = 8
-    #print(str(angle_calc(a,b,c)))
-   # a = 1, 2, 3, 4, 5, 6
-    #print(str(stats(a)))
-    lat = 40.7649
-    lon = 111.8421
-    a = gps_to_cartesian(lat,lon)
-    print(str(a))
-    
-    print(str(cartesion_to_gps(a[0],a[1],a[2])))
-    rad1 = 3
-    rad2 = 5
-    rtk = -4
-    print(str(trilateration(rtk,rad1,rad2)))
+
+    base_laser = 2.899
+    rover_laser = 2.356
+    rtk = 1.728
+
+    base_dist_file = "/home/andrew/minicom.csv"
+    rover_dist_file = "/home/andrew/minicom1.csv"
+
+    base_dist_measure = pos_data.UWB_pos_data(base_dist_file)
+    rover_dist_measure = pos_data.UWB_pos_data(rover_dist_file)
+
+    base_dist_mean = stats(base_dist_measure)
+    rover_dist_mean = stats(rover_dist_measure)
+    #print(base_dist_mean)
+    print(rover_dist_mean)
+    #angles_from_deca = angle_calc(base_dist_mean, rover_dist_mean, rtk)
+    #angles_from_laser = angle_calc(base_laser, rover_laser, rtk)
+
+    #print("base distance error: " + str(base_dist_mean - base_laser))
+    #print("rover distance error: " + str(rover_dist_mean - rover_laser))
+
+    #print("angles from deca: " + str(angles_from_deca))
+    #print("angles from laser: " + str(angles_from_laser))
+   
