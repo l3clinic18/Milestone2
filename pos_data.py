@@ -9,12 +9,17 @@ def camera_pos_data(cam_data):
 #gps_data, text file, HEX. Argument type: String
 #Returns a list of reletive distance measurements in meters.
 def GPS_pos_data(gps_data):
-    _data = []
+    ubx_data = []
     try:
         with open(gps_data, "rb") as gps_file:
-            for line in gps_file:
-                if line[0:4].hex() == 'b5620130': #check first 5 bytes to aquire UBX packet.
-                    print(True)
+            _data = gps_file.read()
+            for index in range(len(_data)-1): #reading the file two bytes at a time.
+                if _data[index:(index + 2)].hex() == 'b562': #check first 5 bytes to aquire UBX packet.
+                    print(_data[index:(index + 2)].hex())
+                    
+                    #UBX_packet_data(line[7:(len(line)-2)])
+                elif (len(_data) - index) < 8:
+                    pass
         gps_file.closed
     except(OSError):
         print("Error in opening/reading file. " + str(OSError))
@@ -31,12 +36,17 @@ def UWB_pos_data(uwb_data):
                 data_list = line.split(b',')
                 if len(data_list) == 8 and (b'\n' in data_list[7]):
                     _data.append(float(data_list[7].strip(b'\n')))
-            print(_data[1])
         uwb_file.closed
     except(OSError):
         print("Error in opening/reading file. " + str(OSError))
         return None
     return _data
+
+#The payload of the UBX packet to be decoded and useful information returned.
+def UBX_packet_data(payload):
+    #print(payload)
+    pass
+
 
 
 #end of file
