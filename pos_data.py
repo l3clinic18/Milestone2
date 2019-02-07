@@ -13,10 +13,17 @@ def GPS_pos_data(gps_data):
     try:
         with open(gps_data, "rb") as gps_file:
             _data = gps_file.read()
+            #                                           UBX packet structure                                            #
+            # SyncChar1 | SyncChar2 |  Class   |   ID     |   Length   |             Payload              |  CHK_SUM |  #
+            #  1 Byte   |  1 Byte   |  1 Byte  |  1 Byte  |   2 Byte   |     Variable 4 Byte increment    |  2 Byte  |  #
             for index in range(len(_data)-1): #reading the file two bytes at a time.
-                if _data[index:(index + 2)].hex() == 'b562': #check first 5 bytes to aquire UBX packet.
+                if _data[index:(index + 2)].hex() == 'b562': #check two bytes to verify UBX packet
                     print(_data[index:(index + 2)].hex())
-                    
+                    if _data[(index+2):(index+5)].hex() == '01c3': #Check the Class & ID
+                        UBX_packet_data(_data[(index+8):(index+41)])
+                    else:
+                        print(_data[(index+5):(index+8)])
+                        payload_length = int.from_bytes(_data[(index+5):(index+8)], 'little')
                     #UBX_packet_data(line[7:(len(line)-2)])
                 elif (len(_data) - index) < 8:
                     pass
