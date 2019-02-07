@@ -43,7 +43,11 @@ def UWB_pos_data(uwb_data):
                 data_list = line.split(b',')
                 if len(data_list) == 8 and (b'\n' in data_list[7]):
                     _data.append(float(data_list[7].strip(b'\n')))
+<<<<<<< Updated upstream
         uwb_file.closed
+=======
+            #print(_data[1])
+>>>>>>> Stashed changes
     except(OSError):
         print("Error in opening/reading file. " + str(OSError))
         return None
