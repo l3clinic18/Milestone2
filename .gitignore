@@ -5,3 +5,4 @@ minicom.csv
 ubxTest1.log
 ubxTest2.log
 azimuth_calc.cpp
+.DS_Store
