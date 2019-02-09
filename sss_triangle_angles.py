@@ -54,46 +54,47 @@ def trilateration(rtk, rad1, rad2):
 
 if __name__ == '__main__':
 
-    base_laser = 2.899
-    rover_laser = 2.356
-    rtk = 1
-    a = [1,2 ,3 ,4,5,6,7,8,9]
+    base_laser = 1.405
+    rover_laser = 1.559
+    rtk = 1.038
+    #a = [1,2 ,3 ,4,5,6,7,8,9]
     #print(str(a[-3:]))
 
     base_dist_file = "/home/andrew/minicom_base.csv"
     rover_dist_file = "/home/andrew/minicom_rover.csv"
 
-    #base_dist_measure = pos_data.UWB_pos_data(base_dist_file)
-    #rover_dist_measure = pos_data.UWB_pos_data(rover_dist_file)
+    base_dist_measure = pos_data.UWB_pos_data(base_dist_file)
+    rover_dist_measure = pos_data.UWB_pos_data(rover_dist_file)
 
-   # base_dist_mean = stats(base_dist_measure)
-    #rover_dist_mean = stats(rover_dist_measure)
-    #print(base_dist_mean)
-    #print(rover_dist_mean)
+    base_dist_mean = stats(base_dist_measure)
+    rover_dist_mean = stats(rover_dist_measure)
+    print(base_dist_mean)
+    print(rover_dist_mean)
 
-    #angles_from_deca = angle_calc(base_dist_mean, rover_dist_mean, rtk)
-    #angles_from_laser = angle_calc(base_laser, rover_laser, rtk)
+    angles_from_deca = angle_calc(base_dist_mean, rover_dist_mean, rtk)
+    angles_from_laser = angle_calc(base_laser, rover_laser, rtk)
 
-    #print("base distance error: " + str(base_dist_mean - base_laser))
-    #print("rover distance error: " + str(rover_dist_mean - rover_laser))
+    print("base distance error: " + str(base_dist_mean - base_laser))
+    print("rover distance error: " + str(rover_dist_mean - rover_laser))
 
-    #print("angles from deca: " + str(angles_from_deca))
-    #print("angles from laser: " + str(angles_from_laser))
+    print("angles from deca: " + str(angles_from_deca))
+    print("angles from laser: " + str(angles_from_laser))
 
-   # while True:
-    #    try:
-     #       base_dist_measure = pos_data.UWB_pos_data(base_dist_file)
-      #      rover_dist_measure = pos_data.UWB_pos_data(rover_dist_file)
-       #     base_dist_mean = stats(base_dist_measure[-10:])
-        #    rover_dist_mean = stats(rover_dist_measure[-10:])
-         #   angles_from_deca = angle_calc(base_dist_mean, rover_dist_mean, rtk)
-          #  angles_from_laser = angle_calc(base_laser, rover_laser, rtk)
+    #while True:
+       # try:
+           # base_dist_measure = pos_data.UWB_pos_data(base_dist_file)
+           # rover_dist_measure = pos_data.UWB_pos_data(rover_dist_file)
+            #base_dist_mean = stats(base_dist_measure[-10:])
+            #rover_dist_mean = stats(rover_dist_measure[-10:])
+            #angles_from_deca = angle_calc(base_dist_mean, rover_dist_mean, rtk)
+            #angles_from_laser = angle_calc(base_laser, rover_laser, rtk)
 
-           # print("angles from deca: " + str(angles_from_deca))
+            #print("angles from deca: " + str(angles_from_deca))
+            #print("angles from laser: " + str(angles_from_laser))
             
             #print("in the loop")
         #except KeyboardInterrupt:
-         #   break
+            #break
 
   #  print("successful")
    
