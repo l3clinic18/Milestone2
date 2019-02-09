@@ -58,7 +58,7 @@ def UBX_packet_data(payload):
     #print('Reletive north ' + str(int.from_bytes(payload[8:12], byteorder='little', signed=True))
     #        + ' Reletive east ' + str(int.from_bytes(payload[12:16], byteorder='little', signed=True))
     #        + ' Reletive depth ' + str(int.from_bytes(payload[16:20], byteorder='little', signed=True)))
-    return [int.from_bytes(payload[8:12], byteorder='little', signed=True), int.from_bytes(payload[12:16], byteorder='little', signed=True)]
+    return [int.from_bytes(payload[8:12], byteorder='little', signed=True)/100, int.from_bytes(payload[12:16], byteorder='little', signed=True)/100]
 
 def verify_packet(_data, chksum):
     A = 0
