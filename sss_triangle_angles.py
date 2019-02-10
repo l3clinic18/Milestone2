@@ -54,9 +54,9 @@ def trilateration(rtk, rad1, rad2):
 
 if __name__ == '__main__':
 
-    base_laser = 1.405
-    rover_laser = 1.559
-    rtk = 1.038
+    base_laser = 3.607
+    rover_laser = 4.452
+    rtk = 1.852
     #a = [1,2 ,3 ,4,5,6,7,8,9]
     #print(str(a[-3:]))
 
@@ -71,8 +71,8 @@ if __name__ == '__main__':
     print(base_dist_mean)
     print(rover_dist_mean)
 
-    angles_from_deca = angle_calc(base_dist_mean, rover_dist_mean, rtk)
-    angles_from_laser = angle_calc(base_laser, rover_laser, rtk)
+    angles_from_deca = angle_calc(rtk, base_dist_mean, rover_dist_mean)
+    angles_from_laser = angle_calc(rtk, base_laser, rover_laser)
 
     print("base distance error: " + str(base_dist_mean - base_laser))
     print("rover distance error: " + str(rover_dist_mean - rover_laser))
