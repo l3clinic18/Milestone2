@@ -4,8 +4,26 @@ import binascii
 from struct import *
 #Pixy position data.
 #cam_data is a text file path. String.
+#returns and averaged tuple of x, y float vlaues. 
 def camera_pos_data(cam_data):
-    pass
+    temp_data = [0, 0]
+    count = 0
+    try:
+        with open(cam_data, "r") as cam_file:
+            #x and y are index 3 & 5 respectivly. 
+            for line in cam_file:
+                count += 1
+                data_list = line.split(' ') 
+                temp_data[0] += int(data_list[3])
+                temp_data[1] += int(data_list[5])
+        cam_file.closed
+    except(OSError):
+        print("Error in opening/reading file. " + str(OSError))
+        return None
+    #average over the number of x,y values
+    camera_data = (temp_data[0]/count, temp_data[1]/count)
+    print(str(camera_data[0]) + ' ' + str(camera_data[1]))
+    return camera_data
 #GPS RTK distance between base station and rover.
 #gps_data, text file, HEX. Argument type: String
 #Returns a list of reletive distance measurements in meters.
@@ -80,4 +98,4 @@ def verify_packet(_data, chksum):
 #If the files are passed in at compile/execution time.
 if __name__ == "__main__":
     #test
-    GPS_pos_data(sys.argv[1])
+    camera_pos_data(sys.argv[1])
